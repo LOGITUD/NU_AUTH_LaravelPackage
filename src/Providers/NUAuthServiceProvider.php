@@ -2,36 +2,30 @@
 
 namespace Numesia\NUAuth\Providers;
 
+use Numesia\NUAuth\NUAuth;
 use Illuminate\Support\ServiceProvider;
 
 class NUAuthServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
+     * Bootstrap the application services.
      *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
-     * Boot the service provider.
+     * @return void
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../config/config.php' => config_path('nuauth.php'),
-        ], 'config');
+        //
     }
 
     /**
-     * Register the service provider.
+     * Register the application services.
      *
      * @return void
      */
     public function register()
     {
-        // register providers
-
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'nuauth');
+        $this->app->singleton('NUAuth', function () {
+            return new NUAuth;
+        });
     }
 }
