@@ -26,9 +26,9 @@ Next, also in the app.php config file, under the aliases array, you may want to 
 	'JWTAuth' => Tymon\JWTAuth\Facades\JWTAut::class
 	'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class
 
-Finally, you will want to publish the config using the following command:
+Finally, you will want to change your `JWT_SECRET` key from `.env` file:
 
-	'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory'
+    JWT_SECRET=YourAuthSecretKey
 
 ## How to use ?
 
