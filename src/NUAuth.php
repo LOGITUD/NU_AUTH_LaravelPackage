@@ -5,41 +5,34 @@ use JWTAuth;
 
 class NUAuth
 {
+    /**
+     * User
+     * @var Payload
+     */
     private $user;
 
     /**
-     * Get connected user
+     * Get authenticate user
      *
      * @return $this
      */
     public function user()
     {
         if ($this->user) {
-            return $this;
+            return $this->user;
         }
 
-        $this->user = JWTAuth::parseToken();
+        $this->user = JWTAuth::parseToken()->getPayload();
 
-        return $this;
+        return $this->user;
     }
 
-    /**
-     * Get user permissions
-     *
-     * @return array
-     */
-    public function getPermissions()
+    public function logout()
     {
-
-    }
-
-    /**
-     * Get user roles
-     *
-     * @return array
-     */
-    public function getRoles()
-    {
-
+        $token = JWTAuth::getToken();
+        if ($token) {
+            JWTAuth::setToken($token)->invalidate();
+        }
+        $this->user = null;
     }
 }
