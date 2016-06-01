@@ -18,8 +18,9 @@ composer from which url the package must be loaded.
 
 Once this has finished, you will need to add the service provider to the providers array in your app.php config as follows:
 
-`Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,`
-`Numesia\NUAuth\Providers\NUAuthServiceProvider::class,`
+	Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+	Numesia\NUAuth\Providers\NUAuthServiceProvider::class,
+	
 Next, also in the app.php config file, under the aliases array, you may want to add the JWTAuth and NUAuth facades.
 
 `'JWTAuth' => Tymon\JWTAuth\Facades\JWTAut::class`
