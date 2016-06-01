@@ -1,0 +1,17 @@
+{
+    "name": "numesia/laravel-auth",
+    "description": "Laravel package that helps authenticate with the NU_AUTH service",
+    "license": "Private",
+    "require": {
+        "php": ">=5.5.9",
+        "tymon/jwt-auth": "^0.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Numesia\\NUAuth\\": "src"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}
