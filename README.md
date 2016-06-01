@@ -23,12 +23,12 @@ Once this has finished, you will need to add the service provider to the provide
 	
 Next, also in the app.php config file, under the aliases array, you may want to add the JWTAuth and NUAuth facades.
 
-`'JWTAuth' => Tymon\JWTAuth\Facades\JWTAut::class`
-`'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class`
+	'JWTAuth' => Tymon\JWTAuth\Facades\JWTAut::class
+	'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class
 
 Finally, you will want to publish the config using the following command:
 
-`'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory'`
+	'JWTFactory' => 'Tymon\JWTAuth\Facades\JWTFactory'
 
 ## How to use ?
 
@@ -57,6 +57,8 @@ And then you can use it in your `app/Http/routes.php` file
 
 NUAuth comes with an `NUAuth` alias which contain some useful methods :
 
+	<?php
+	
 	// Get auth user Payload instance
 	\NUAuth::user()
 
