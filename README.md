@@ -47,7 +47,7 @@ To use the middlewares you will have to register them in `app/Http/Kernel.php` u
 	
 And then you can use it in your `app/Http/routes.php` file
 
-	Route::group(['middleware' => 'nuatuh'], function(){
+	Route::group(['middleware' => 'nuauth'], function(){
     	Route::get('/', function () {
 	        return "Hello I'm authenticated";
 	    });
