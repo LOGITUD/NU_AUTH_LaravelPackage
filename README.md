@@ -12,7 +12,7 @@ composer from which url the package must be loaded.
         }
     ],
 	"require": {
-        "NUMESIA/laravel-auth": "0.0.2"
+        "NUMESIA/laravel-auth": "0.0.*"
     },
 	
 
