@@ -65,6 +65,9 @@ NUAuth comes with an `NUAuth` alias which contain some useful methods :
 	// Get user Scopes
 	\NUAuth::user()->get('scopes');
 
+	// Get user departments
+	\NUAuth::user()->get('departments');
+
 	// Get user Roles
 	\NUAuth::user()->get('roles');
 
