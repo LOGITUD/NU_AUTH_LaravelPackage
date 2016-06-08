@@ -23,8 +23,8 @@ Once this has finished, you will need to add the service provider to the provide
 	
 Next, also in the app.php config file, under the aliases array, you may want to add the JWTAuth and NUAuth facades.
 
-	'JWTAuth' => Tymon\JWTAuth\Facades\JWTAut::class
-	'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class
+	'JWTAuth' => Tymon\JWTAuth\Facades\JWTAut::class,
+	'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class,
 
 Finally, you will want to change your `JWT_SECRET` key from `.env` file:
 
