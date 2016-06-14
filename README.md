@@ -12,7 +12,7 @@ composer from which url the package must be loaded.
         }
     ],
 	"require": {
-        "NUMESIA/laravel-auth": "0.0.2"
+        "NUMESIA/laravel-auth": "0.0.*"
     },
 
 
@@ -23,8 +23,8 @@ Once this has finished, you will need to add the service provider to the provide
 
 Next, also in the app.php config file, under the aliases array, you may want to add the JWTAuth and NUAuth facades.
 
-	'JWTAuth' => Tymon\JWTAuth\Facades\JWTAut::class
-	'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class
+	'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+	'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class,
 
 Finally, you will want to change your `JWT_SECRET`, `NAUTH_USER_MODEL`, `NAUTH_KEY` keys from `.env` file:
 
@@ -51,7 +51,7 @@ To use the middlewares you will have to register them in `app/Http/Kernel.php` u
 
 And then you can use it in your `app/Http/routes.php` file
 
-	Route::group(['middleware' => 'nuatuh'], function(){
+	Route::group(['middleware' => 'nuauth'], function(){
     	Route::get('/', function () {
 	        return "Hello I'm authenticated";
 	    });
@@ -68,6 +68,9 @@ NUAuth comes with an `NUAuth` alias which contain some useful methods :
 
 	// Get user Scopes
 	\NUAuth::auth()->get('scopes');
+
+	// Get user departments
+	\NUAuth::user()->get('departments');
 
 	// Get user Roles
 	\NUAuth::auth()->get('roles');
