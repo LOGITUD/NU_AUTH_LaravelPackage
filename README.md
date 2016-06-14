@@ -64,16 +64,19 @@ NUAuth comes with an `NUAuth` alias which contain some useful methods :
 	<?php
 
 	// Get auth user Payload instance
-	\NUAuth::user()
+	\NUAuth::auth()
 
 	// Get user Scopes
-	\NUAuth::user()->get('scopes');
+	\NUAuth::auth()->get('scopes');
 
 	// Get user Roles
-	\NUAuth::user()->get('roles');
+	\NUAuth::auth()->get('roles');
 
 	// Get user Id
-	\NUAuth::user()->get('sub');
+	\NUAuth::auth()->get('sub');
+
+    // Get user model
+    \NUAuth::user();
 
 	// Logout auth user
 	\NUAuth::logout();
