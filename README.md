@@ -70,7 +70,7 @@ NUAuth comes with an `NUAuth` alias which contain some useful methods :
 	\NUAuth::auth()->get('scopes');
 
 	// Get user departments
-	\NUAuth::user()->get('departments');
+	\NUAuth::auth()->get('departments');
 
 	// Get user Roles
 	\NUAuth::auth()->get('roles');
