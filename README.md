@@ -11,20 +11,20 @@ composer from which url the package must be loaded.
             "url":  "git@bitbucket.org:NUMESIA/nu_auth_laravelpackage.git"
         }
     ],
-	"require": {
+    "require": {
         "NUMESIA/laravel-auth": "0.0.*"
     },
 
 
 Once this has finished, you will need to add the service provider to the providers array in your app.php config as follows:
 
-	Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-	Numesia\NUAuth\Providers\NUAuthServiceProvider::class,
+    Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+    Numesia\NUAuth\Providers\NUAuthServiceProvider::class,
 
 Next, also in the app.php config file, under the aliases array, you may want to add the JWTAuth and NUAuth facades.
 
-	'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-	'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class,
+    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+    'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class,
 
 Finally, you will want to change your `JWT_SECRET`, `NAUTH_USER_MODEL`, `NAUTH_KEY` keys from `.env` file:
 
@@ -44,64 +44,72 @@ This will check the header and query string (as explained above) for the presenc
 
 To use the middlewares you will have to register them in `app/Http/Kernel.php` under the `$routeMiddleware` property:
 
-	protected $routeMiddleware = [
-    	...
-    	'nuauth' => \Numesia\NUAuth\Middleware\Authenticate::class,
+    protected $routeMiddleware = [
         ...
-	];
+        'nuauth' => \Numesia\NUAuth\Middleware\Authenticate::class,
+        ...
+    ];
 
 And then you can use it in your `app/Http/routes.php` file
 
-	Route::group(['middleware' => 'nuauth'], function(){
-    	Route::get('/', function () {
-	        return "Hello I'm authenticated";
-	    });
-	});
+    Route::group(['middleware' => 'nuauth'], function(){
+        Route::get('/', function () {
+            return "Hello I'm authenticated";
+        });
+    });
 
 #### Advance
 
 You can also tell your middleware to filter by departments, roles and also scopes by using the syntax:
 
-    nuauth:departments:roles:scopes
+```
+['middleware' => 'nuauth:departments:roles:scopes']
+```
 
 **Example:**
 
 - Get access only if the user belongs to NUMESIA department
 
+```
     nuauth:NUMESIA:*:*
+```
 
 - Get access only if roles are ADMIN or OPERATOR
 
+```
     nuauth:*:ADMIN|OPERATOR:*
+```
 
 - Get access only if scopes are CREATE and UPDATE
 
+```
     nuauth:*:*:CREATE+UPDATE
+```
 
 
 ### Alias
 
 NUAuth comes with an `NUAuth` alias which contain some useful methods :
 
-	<?php
+    <?php
 
-	// Get auth user Payload instance
-	\NUAuth::auth()
+    // Get auth user Payload instance
+    \NUAuth::auth()
 
-	// Get user Scopes
-	\NUAuth::auth()->get('scopes');
+    // Get user Scopes
+    \NUAuth::auth()->get('scopes');
 
-	// Get user departments
-	\NUAuth::auth()->get('departments');
+    // Get user departments
+    \NUAuth::auth()->get('departments');
 
-	// Get user Roles
-	\NUAuth::auth()->get('roles');
+    // Get user Roles
+    \NUAuth::auth()->get('roles');
 
-	// Get user Id
-	\NUAuth::auth()->get('sub');
+    // Get user Id
+    \NUAuth::auth()->get('sub');
 
     // Get user model
     \NUAuth::user();
 
-	// Logout auth user
-	\NUAuth::logout();
+    // Logout auth user
+    \NUAuth::logout();
