@@ -46,7 +46,7 @@ To use the middlewares you will have to register them in `app/Http/Kernel.php` u
 
 	protected $routeMiddleware = [
     	...
-    	'nuauth' => Numesia\NUAuth\Middleware\Authenticate::class,
+    	'nuauth' => \Numesia\NUAuth\Middleware\Authenticate::class,
         ...
 	];
 
