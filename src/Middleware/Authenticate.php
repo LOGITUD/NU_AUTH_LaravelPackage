@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Numesia\NUAuth\NUAuth;
+use Exception;
 
 class Authenticate
 {
@@ -15,9 +16,9 @@ class Authenticate
      *
      * @param \Numesia\NUAuth\NUAuth  $auth
      */
-    public function __construct(NUAuth $auth)
+    public function __construct(NUAuth $nuauth)
     {
-        $this->auth = $auth;
+        $this->nuauth = $nuauth;
     }
 
     /**
@@ -30,11 +31,13 @@ class Authenticate
     public function handle($request, Closure $next)
     {
         try {
-            $user = $this->auth->user();
+            $user = $this->nuauth->user();
         } catch (TokenExpiredException $e) {
             return $this->respond('tymon.jwt.expired', 'token_expired', $e->getStatusCode(), [$e]);
         } catch (JWTException $e) {
             return $this->respond('tymon.jwt.invalid', 'token_invalid', $e->getStatusCode(), [$e]);
+        } catch (Exception $e) {
+            return $this->respond('user.unavailable', 'user_unavailable', '401');
         }
 
         event('tymon.jwt.valid', $user);
