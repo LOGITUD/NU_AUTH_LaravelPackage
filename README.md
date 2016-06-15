@@ -58,6 +58,27 @@ And then you can use it in your `app/Http/routes.php` file
 	    });
 	});
 
+#### Advance
+
+You can also tell your middleware to filter by departments, roles and also scopes by using the syntax:
+
+    nuauth:departments:roles:scopes
+
+**Example:**
+
+- Get access only if the user belongs to NUMESIA department
+
+    nuauth:NUMESIA:*:*
+
+- Get access only if roles are ADMIN or OPERATOR
+
+    nuauth:*:ADMIN|OPERATOR:*
+
+- Get access only if scopes are CREATE and UPDATE
+
+    nuauth:*:*:CREATE+UPDATE
+
+
 ### Alias
 
 NUAuth comes with an `NUAuth` alias which contain some useful methods :
