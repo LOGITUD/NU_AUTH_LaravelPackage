@@ -31,7 +31,7 @@ class Authenticate
     public function handle($request, Closure $next, $conditions = '*:*:*')
     {
         try {
-            $user = $this->nuauth->user();
+            $this->nuauth->login();
         } catch (TokenExpiredException $e) {
             return $this->respond('tymon.jwt.expired', 'token_expired', $e->getStatusCode(), [$e]);
         } catch (JWTException $e) {
@@ -55,8 +55,6 @@ class Authenticate
         if (!$this->isBelongTo($auth->get('scopes'), $scopes)) {
             return $this->respond('nauth.not_in_scopes', 'not_in_scopes', '401');
         }
-
-        event('tymon.jwt.valid', $user);
 
         return $next($request);
     }

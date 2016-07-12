@@ -110,6 +110,8 @@ NUAuth comes with an `NUAuth` alias which contain some useful methods :
 
     // Get user model
     \NUAuth::user();
+    // Or default laravel auth user
+    \Auth::user();
 
     // Logout auth user
     \NUAuth::logout();

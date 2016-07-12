@@ -1,6 +1,8 @@
 <?php
 
 namespace Numesia\NUAuth;
+
+use Auth;
 use JWTAuth;
 
 class NUAuth
@@ -39,9 +41,14 @@ class NUAuth
             return $this->user;
         }
 
-        $authId = $this->auth()->get('sub');
-        $userModel = env('NAUTH_USER_MODEL', 'App\Models\User');
+        $authId            = $this->auth()->get('sub');
+        $userModel         = env('NAUTH_USER_MODEL', 'App\Models\User');
         return $this->user = $userModel::where(env('NAUTH_KEY', 'auth_id'), $authId)->firstOrFail();
+    }
+
+    public function login()
+    {
+        Auth::login($this->user());
     }
 
     public function logout()
@@ -52,5 +59,6 @@ class NUAuth
         }
 
         $this->user = $this->auth = null;
+        Auth::logout();
     }
 }
