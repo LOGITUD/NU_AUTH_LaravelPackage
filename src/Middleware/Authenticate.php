@@ -62,9 +62,9 @@ class Authenticate
     }
 
     /**
-     * Check whether a string elements belongs to a group
+     * Check whether a Role is suffisant to pass
      *
-     * @param  array    $group
+     * @param  array    $authRoles
      * @param  string   $requestRoles
      * @param  array    $allRoles
      *
