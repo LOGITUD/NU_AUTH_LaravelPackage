@@ -80,10 +80,22 @@ You can also tell your middleware to filter by departments, roles and also scope
     nuauth:*:ADMIN|OPERATOR:*
 ```
 
+- Get access only if roles are MANAGER or higher
+
+```
+    nuauth:*:MANAGER+:*
+```
+
+- Get access only if roles are MANAGER or lower
+
+```
+    nuauth:*:MANAGER-:*
+```
+
 - Get access only if scopes are CREATE and UPDATE
 
 ```
-    nuauth:*:*:CREATE+UPDATE
+    nuauth:*:*:CREATE&UPDATE
 ```
 
 

@@ -3,11 +3,11 @@
 namespace Numesia\NUAuth\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Support\Facades\Auth;
+use Numesia\NUAuth\NUAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Numesia\NUAuth\NUAuth;
-use Exception;
 
 class Authenticate
 {
@@ -40,23 +40,52 @@ class Authenticate
             return $this->respond('nauth.user_unavailable', 'user_unavailable', '401');
         }
 
-        $auth = $this->nuauth->auth();
+        $auth       = $this->nuauth->auth();
+        $userClaims = $auth->get('user');
+        $allRoles   = $auth->get('roles');
 
         @list($departments, $roles, $scopes) = explode(':', $conditions);
 
-        if (!$this->isBelongTo($auth->get('departments'), $departments)) {
+        if (!$this->isBelongTo($userClaims['departments'], $departments)) {
             return $this->respond('nauth.not_in_departments', 'not_in_departments', '401');
         }
 
-        if (!$this->isBelongTo($auth->get('roles'), $roles)) {
+        if (!$this->hasSuffisantRole($userClaims['roles'], $roles, $allRoles)) {
             return $this->respond('nauth.not_in_roles', 'not_in_roles', '401');
         }
 
-        if (!$this->isBelongTo($auth->get('scopes'), $scopes)) {
+        if (!$this->isBelongTo($userClaims['scopes'], $scopes)) {
             return $this->respond('nauth.not_in_scopes', 'not_in_scopes', '401');
         }
 
         return $next($request);
+    }
+
+    /**
+     * Check whether a string elements belongs to a group
+     *
+     * @param  array    $group
+     * @param  string   $requestRoles
+     * @param  array    $allRoles
+     *
+     * @return boolean
+     */
+    protected function hasSuffisantRole($authRoles, $requestRoles, $allRoles)
+    {
+        $roles = array_keys($allRoles);
+        $reversedRoles = array_reverse($roles);
+
+        foreach ($reversedRoles as $role) {
+            $replace = implode(array_slice($reversedRoles, array_search($role, $reversedRoles)), '|');
+            $requestRoles = str_replace($role.'+', $replace, $requestRoles);
+        }
+
+        foreach ($roles as $role) {
+            $replace = implode(array_slice($roles, array_search($role, $roles)), '|');
+            $requestRoles = str_replace($role.'-', $replace, $requestRoles);
+        }
+
+        return $this->isBelongTo($authRoles, $requestRoles);
     }
 
     /**
@@ -73,18 +102,17 @@ class Authenticate
             return true;
         }
 
-        $andElements = explode('+', $elements);
-        $orElements = explode('|', $elements);
+        $andElements = explode('&', $elements);
+        $orElements  = explode('|', $elements);
 
         $countAndElements = count($andElements);
-        $countOrElements = count($orElements);
+        $countOrElements  = count($orElements);
 
-
-        if($countAndElements == $countOrElements) {
+        if ($countAndElements == $countOrElements) {
             return in_array($elements, $group);
-        }else if($countAndElements > $countOrElements) {
+        } else if ($countAndElements > $countOrElements) {
             return count(array_intersect($andElements, $group)) == $countAndElements;
-        }else {
+        } else {
             return count(array_intersect($orElements, $group)) > 0;
         }
     }
