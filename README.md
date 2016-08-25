@@ -111,20 +111,24 @@ NUAuth comes with an `NUAuth` alias which contain some useful methods :
     // Get auth user Payload instance
     \NUAuth::auth()
 
+    // Get user claims
+    $userClaims = \NUAuth::auth()->get('user');
+
     // Get user Scopes
-    \NUAuth::auth()->get('scopes');
+    $userClaims['scopes'];
 
     // Get user departments
-    \NUAuth::auth()->get('departments');
+    $userClaims['departments'];
 
     // Get user Roles
-    \NUAuth::auth()->get('roles');
+    $userClaims['roles'];
 
     // Get user Id
     \NUAuth::auth()->get('sub');
 
     // Get user model
     \NUAuth::user();
+
     // Or default laravel auth user
     \Auth::user();
 
