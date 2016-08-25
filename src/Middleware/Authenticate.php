@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Numesia\NUAuth\NUAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Request;
 
 class Authenticate
 {
@@ -128,6 +129,11 @@ class Authenticate
     protected function respond($event, $error, $status, $payload = [])
     {
         event($event, $payload);
-        return response()->json(['error' => $error], $status);
+
+        if (Request::ajax() || Request::wantsJson()) {
+            return response(['error' => $error], $status);
+        } else {
+            return redirect()->guest(route(env('NAUTH_LOGIN_ROUTE')));
+        }
     }
 }
