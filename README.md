@@ -31,6 +31,8 @@ Finally, you will want to change your `JWT_SECRET`, `NAUTH_USER_MODEL`, `NAUTH_K
     JWT_SECRET=YourAuthSecretKey
     NAUTH_USER_MODEL=App\Models\User
     NAUTH_KEY=auth_id
+    NAUTH_LOGIN_ROUTE='zxadmin.login'
+    NAUTH_ADMIN_ROUTE='zxadmin.dashboard.index'
 
 > /!\ You have to create `auth_id` field in you user model
 
