@@ -4,7 +4,7 @@
     "license": "Private",
     "require": {
         "php": ">=5.5.9",
-        "tymon/jwt-auth": "^0.5.9"
+        "tymon/jwt-auth": "0.5.*"
     },
     "autoload": {
         "psr-4": {
