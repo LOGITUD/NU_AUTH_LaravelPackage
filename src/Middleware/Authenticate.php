@@ -41,82 +41,15 @@ class Authenticate
             return $this->respond('nauth.user_unavailable', 'user_unavailable', '401');
         }
 
-        $auth       = $this->nuauth->auth();
-        $userClaims = $auth->get('user');
-        $allRoles   = $auth->get('roles');
+        $ability = $this->nuauth()->userHas($conditions);
 
-        @list($departments, $roles, $scopes) = explode(':', $conditions);
-
-        if (!$this->isBelongTo($userClaims['departments'], $departments)) {
-            return $this->respond('nauth.not_in_departments', 'not_in_departments', '401');
-        }
-
-        if (!$this->hasSuffisantRole($userClaims['roles'], $roles, $allRoles)) {
-            return $this->respond('nauth.not_in_roles', 'not_in_roles', '401');
-        }
-
-        if (!$this->isBelongTo($userClaims['scopes'], $scopes)) {
-            return $this->respond('nauth.not_in_scopes', 'not_in_scopes', '401');
+        if ($ability !== true) {
+            return $this->respond('nauth.' . $ability, $ability, '401');
         }
 
         return $next($request);
     }
 
-    /**
-     * Check whether a Role is suffisant to pass
-     *
-     * @param  array    $authRoles
-     * @param  string   $requestRoles
-     * @param  array    $allRoles
-     *
-     * @return boolean
-     */
-    protected function hasSuffisantRole($authRoles, $requestRoles, $allRoles)
-    {
-        $roles = array_keys($allRoles);
-        $reversedRoles = array_reverse($roles);
-
-        foreach ($reversedRoles as $role) {
-            $replace = implode(array_slice($reversedRoles, array_search($role, $reversedRoles)), '|');
-            $requestRoles = str_replace($role.'+', $replace, $requestRoles);
-        }
-
-        foreach ($roles as $role) {
-            $replace = implode(array_slice($roles, array_search($role, $roles)), '|');
-            $requestRoles = str_replace($role.'-', $replace, $requestRoles);
-        }
-
-        return $this->isBelongTo($authRoles, $requestRoles);
-    }
-
-    /**
-     * Check whether a string elements belongs to a group
-     *
-     * @param  array   $group
-     * @param  string  $elements
-     *
-     * @return boolean
-     */
-    protected function isBelongTo(array $group, $elements)
-    {
-        if (!$elements || $elements == '*') {
-            return true;
-        }
-
-        $andElements = explode('&', $elements);
-        $orElements  = explode('|', $elements);
-
-        $countAndElements = count($andElements);
-        $countOrElements  = count($orElements);
-
-        if ($countAndElements == $countOrElements) {
-            return in_array($elements, $group);
-        } else if ($countAndElements > $countOrElements) {
-            return count(array_intersect($andElements, $group)) == $countAndElements;
-        } else {
-            return count(array_intersect($orElements, $group)) > 0;
-        }
-    }
     /**
      * Fire event and return the response.
      *
