@@ -41,7 +41,7 @@ class Authenticate
             return $this->respond('nauth.user_unavailable', 'user_unavailable', '401');
         }
 
-        $ability = $this->nuauth()->userHas($conditions);
+        $ability = $this->nuauth->userHas($conditions);
 
         if ($ability !== true) {
             return $this->respond('nauth.' . $ability, $ability, '401');
