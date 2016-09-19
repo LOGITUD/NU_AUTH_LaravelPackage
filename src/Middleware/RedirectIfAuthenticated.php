@@ -16,9 +16,13 @@ class RedirectIfAuthenticated extends Authenticate
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next, $conditions = '*:*:*')
     {
         try {
+            $ability = $this->nuauth->userHas($conditions);
+            if ($ability !== true) {
+                return $next($request);
+            }
             $this->nuauth->login();
         } catch (\Exception $e) {
             return $next($request);
