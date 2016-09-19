@@ -19,7 +19,7 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $model = env('USER_MODEL', 'App\Models\User');
+        $model = env('NAUTH_USER_MODEL', 'App\Models\User');
         $auth_key = env('NAUTH_KEY', 'auth_id');
 
         $user = new $model;
