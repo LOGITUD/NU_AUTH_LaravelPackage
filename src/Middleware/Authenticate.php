@@ -12,6 +12,9 @@ use Request;
 
 class Authenticate
 {
+
+    public $redirect = null;
+
     /**
      * Create a new instance.
      *
@@ -66,7 +69,8 @@ class Authenticate
         if (Request::ajax() || Request::wantsJson()) {
             return response(['error' => $error], $status);
         } else {
-            return redirect()->guest(route(env('NAUTH_LOGIN_ROUTE')));
+            $route = $this->redirect ?: env('NAUTH_LOGIN_ROUTE');
+            return redirect()->guest(route($route));
         }
     }
 }

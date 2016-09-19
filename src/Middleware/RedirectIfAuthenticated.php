@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated extends Authenticate
 {
+    public $redirect = null;
+
     /**
      * Handle an incoming request.
      *
@@ -22,7 +24,7 @@ class RedirectIfAuthenticated extends Authenticate
             return $next($request);
         }
 
-        return redirect()->route(env('NAUTH_ADMIN_ROUTE'));
-
+        $route = $this->redirect ?: env('NAUTH_ADMIN_ROUTE');
+        return redirect()->route($route);
     }
 }
