@@ -4,8 +4,7 @@
     "license": "Private",
     "require": {
         "php": ">=5.5.9",
-        "zorx/jwt-auth": "0.5.*",
-        "guzzlehttp/guzzle": "^6.2"
+        "zorx/jwt-auth": "0.5.*"
     },
     "autoload": {
         "psr-4": {
