@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 class RedirectIfAuthenticated extends Authenticate
 {
     public $redirect = null;
+    public $guard = null;
 
     /**
      * Handle an incoming request.

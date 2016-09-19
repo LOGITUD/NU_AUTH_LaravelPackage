@@ -4,6 +4,7 @@ namespace Numesia\NUAuth;
 
 use Auth;
 use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class NUAuth
 {
@@ -20,6 +21,17 @@ class NUAuth
     private $user;
 
     /**
+     * Guard
+     * @var string
+     */
+    private $guard = null;
+
+    public function setGuard($guard)
+    {
+        $this->guard = $guard;
+    }
+
+    /**
      * Get auth payload instance
      *
      * @return $this
@@ -30,7 +42,7 @@ class NUAuth
             return $this->auth;
         }
 
-        $this->auth = JWTAuth::parseToken()->getPayload();
+        $this->auth = JWTAuth::parseToken('bearer', $this->guard . 'authorization', $this->guard . 'token', $this->guard . 'access_token')->getPayload();
 
         return $this->auth;
     }
@@ -133,12 +145,25 @@ class NUAuth
 
     public function logout()
     {
-        $token = JWTAuth::getToken();
+        $token = $this->getToken();
+
         if ($token) {
             JWTAuth::setToken($token)->invalidate();
         }
 
         $this->user = $this->auth = null;
+
         Auth::logout();
+    }
+
+    private function getToken()
+    {
+        try {
+            JWTAuth::parseToken('bearer', $this->guard . 'authorization', $this->guard . 'token', $this->guard . 'access_token');
+        } catch (JWTException $e) {
+            return false;
+        }
+
+        return JWTAuth::getToken();
     }
 }

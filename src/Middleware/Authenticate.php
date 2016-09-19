@@ -14,6 +14,7 @@ class Authenticate
 {
 
     public $redirect = null;
+    public $guard = null;
 
     /**
      * Create a new instance.
@@ -23,6 +24,7 @@ class Authenticate
     public function __construct(NUAuth $nuauth)
     {
         $this->nuauth = $nuauth;
+        $this->nuauth->setGuard($this->guard);
     }
 
     /**
@@ -43,7 +45,6 @@ class Authenticate
         } catch (Exception $e) {
             return $this->respond('nauth.user_unavailable', 'user_unavailable', '401');
         }
-
         $ability = $this->nuauth->userHas($conditions);
 
         if ($ability !== true) {
