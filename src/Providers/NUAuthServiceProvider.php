@@ -14,7 +14,17 @@ class NUAuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $routeConfig = [
+            'namespace'  => 'Numesia\NUAuth\Controllers',
+            'prefix'     => 'nuauth',
+        ];
+
+        if (!$this->app->routesAreCached()) {
+            $this->app['router']->group($routeConfig, function ($router) {
+                $router->post('register', 'AuthController@register');
+                $router->post('logout', 'AuthController@logout');
+            });
+        }
     }
 
     /**
