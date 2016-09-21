@@ -19,6 +19,10 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        if ($request->input('request.secret_key') != env('JWT_SECRET')) {
+            return;
+        }
+
         $model = env('NAUTH_USER_MODEL', 'App\Models\User');
         $auth_key = env('NAUTH_KEY', 'auth_id');
         $user = new $model;
