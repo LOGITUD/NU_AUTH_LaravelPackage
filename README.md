@@ -26,6 +26,10 @@ Next, also in the app.php config file, under the aliases array, you may want to 
     'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
     'NUAuth' => Numesia\NUAuth\Facades\NUAuth::class,
 
+Then publish configs
+
+    php artisan vendor:publish --provider="Numesia\NUAuth\Providers\NUAuthServiceProvider" --tag=config
+
 Finally, you will want to change your `JWT_SECRET`, `NAUTH_USER_MODEL`, `NAUTH_KEY` keys from `.env` file:
 
     JWT_SECRET=YourAuthSecretKey

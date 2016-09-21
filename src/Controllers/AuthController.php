@@ -21,9 +21,11 @@ class AuthController extends Controller
     {
         $model = env('NAUTH_USER_MODEL', 'App\Models\User');
         $auth_key = env('NAUTH_KEY', 'auth_id');
-
         $user = new $model;
-        $user->{$auth_key} = $request->auth_id;
+        foreach (config('nuauth.data') as $field => $req) {
+            $user->{$field} = $request->input($req);
+        }
+        $user->{$auth_key} = $request->input('user.id');
         $user->save();
     }
 
