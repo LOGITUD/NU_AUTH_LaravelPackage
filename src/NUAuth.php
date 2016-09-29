@@ -62,7 +62,12 @@ class NUAuth
     {
         $this->setGuard($guard);
 
-        $auth       = $this->auth();
+        try {
+            $auth = $this->auth();
+        } catch (JWTException $e) {
+            return false;
+        }
+
         $userClaims = $auth->get('user');
         $allRoles   = $auth->get('roles');
 
