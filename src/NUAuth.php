@@ -58,8 +58,10 @@ class NUAuth
         return $this->user = $userModel::where(env('NAUTH_KEY', 'auth_id'), $authId)->firstOrFail();
     }
 
-    public function userHas($conditions = '*:*:*')
+    public function userHas($conditions = '*:*:*', $guard = null)
     {
+        $this->setGuard($guard);
+
         $auth       = $this->auth();
         $userClaims = $auth->get('user');
         $allRoles   = $auth->get('roles');
