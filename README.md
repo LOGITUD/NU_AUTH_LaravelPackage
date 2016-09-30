@@ -131,7 +131,7 @@ NUAuth comes with an `NUAuth` alias which contain some useful methods :
     \NUAuth::auth()->get('sub');
 
     // Ability
-    \NUAuth::userHas($conditions = '*:*:*');
+    \NUAuth::userHas($conditions = '*:*:*', $guard = null);
 
     // Get user model
     \NUAuth::user();
