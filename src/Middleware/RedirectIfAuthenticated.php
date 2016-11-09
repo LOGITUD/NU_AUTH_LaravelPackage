@@ -20,7 +20,7 @@ class RedirectIfAuthenticated extends Authenticate
     public function handle($request, Closure $next, $conditions = '*:*:*')
     {
         try {
-            $ability = $this->nuauth->userHas($conditions);
+            $ability = $this->nuauth->userHas($conditions, $this->guard);
             if ($ability !== true) {
                 return $next($request);
             }
