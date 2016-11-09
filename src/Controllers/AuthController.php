@@ -44,7 +44,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $token = $request->token;
+        $token = JWTAuth::getToken();
 
         if (!$token) {
             return response()->json(['error' => 'token_not_provided'], 500);
