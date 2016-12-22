@@ -8,7 +8,7 @@ composer from which url the package must be loaded.
     "repositories": [
         {
             "type": "vcs",
-            "url":  "git@bitbucket.org:NUMESIA/nu_auth_laravelpackage.git"
+            "url":  "git@github.com:NUMESIA/NU_AUTH_LaravelPackage.git"
         }
     ],
     "require": {
