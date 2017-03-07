@@ -14,7 +14,6 @@ class AuthController extends Controller
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * Show the homepage.
      *
      * @return Response
      */
@@ -39,7 +38,19 @@ class AuthController extends Controller
     }
 
     /**
-     * Show the homepage.
+     *
+     * @return Response
+     */
+    public function reset(Request $request)
+    {
+        if ($request->input('request.secret_key') != env('JWT_SECRET')) {
+            return;
+        }
+
+        // Do something
+    }
+
+    /**
      *
      * @return Response
      */
