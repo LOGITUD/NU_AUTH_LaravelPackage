@@ -41,13 +41,26 @@ class AuthController extends Controller
      *
      * @return Response
      */
-    public function reset(Request $request)
+    public function changePassword(Request $request)
     {
         if ($request->input('request.secret_key') != env('JWT_SECRET')) {
             return;
         }
 
-        // Do something
+        event('password.changePassword', ['request' => $request]);
+    }
+
+    /**
+     *
+     * @return Response
+     */
+    public function sendResetEmail(Request $request)
+    {
+        if ($request->input('request.secret_key') != env('JWT_SECRET')) {
+            return;
+        }
+
+        event('password.sendResetEmail', ['request' => $request]);
     }
 
     /**

@@ -26,7 +26,8 @@ class NUAuthServiceProvider extends ServiceProvider
         if (!$this->app->routesAreCached()) {
             $this->app['router']->group($routeConfig, function ($router) {
                 $router->post('register', 'AuthController@register');
-                $router->post('password/reset', 'AuthController@reset');
+                $router->post('password/changePassword', 'AuthController@changePassword');
+                $router->post('password/sendResetEmail', 'AuthController@sendResetEmail');
                 $router->post('logout', 'AuthController@logout');
             });
         }
