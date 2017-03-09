@@ -47,7 +47,7 @@ class AuthController extends Controller
             return;
         }
 
-        event('password.changePassword', $request->all());
+        event('password.changePassword', [$request->all()]);
     }
 
     /**
@@ -60,7 +60,7 @@ class AuthController extends Controller
             return;
         }
 
-        event('password.sendResetEmail', $request->all());
+        event('password.sendResetEmail', [$request->all()]);
     }
 
     /**
