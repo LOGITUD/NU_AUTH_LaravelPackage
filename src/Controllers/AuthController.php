@@ -69,7 +69,11 @@ class AuthController extends Controller
      */
     public function update(Request $request)
     {
-        $user = JWTAuth::parseToken()->toUser();
+        try {
+            $user = JWTAuth::parseToken()->toUser();
+        }catch (\Exception $e) {
+            return response()->json(['error' => 'token_invalid'], 500);
+        }
 
         $user->update($request->only(['email', 'password']));
     }
