@@ -29,6 +29,7 @@ class NUAuthServiceProvider extends ServiceProvider
                 $router->post('password/changePassword', 'AuthController@changePassword');
                 $router->post('password/sendResetEmail', 'AuthController@sendResetEmail');
                 $router->post('logout', 'AuthController@logout');
+                $router->put('account', 'AuthController@update');
             });
         }
     }

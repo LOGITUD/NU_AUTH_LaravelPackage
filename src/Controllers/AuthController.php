@@ -67,6 +67,17 @@ class AuthController extends Controller
      *
      * @return Response
      */
+    public function update(Request $request)
+    {
+        $user = JWTAuth::parseToken()->toUser();
+
+        $user->update($request->only(['email', 'password']));
+    }
+
+    /**
+     *
+     * @return Response
+     */
     public function logout(Request $request)
     {
         $token = JWTAuth::getToken();
