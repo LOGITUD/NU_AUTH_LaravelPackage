@@ -43,6 +43,7 @@ class Authenticate
         } catch (JWTException $e) {
             return $this->respond('tymon.jwt.invalid', 'token_invalid', $e->getStatusCode(), [$e]);
         } catch (Exception $e) {
+            \Log::info("[Laravel-Auth-Package] : " . $e->getMessage());
             return $this->respond('nauth.user_unavailable', 'user_unavailable', '401');
         }
         $ability = $this->nuauth->userHas($conditions);
