@@ -31,6 +31,11 @@ class NUAuth
         $this->guard = $guard;
     }
 
+    public function setAuth($auth)
+    {
+        $this->auth = $auth;
+    }
+
     /**
      * Get auth payload instance
      *
@@ -163,7 +168,7 @@ class NUAuth
         Auth::logout();
     }
 
-    private function getToken()
+    public function getToken()
     {
         try {
             JWTAuth::parseToken('bearer', $this->guard . 'authorization', $this->guard . 'token', $this->guard . 'access_token');
