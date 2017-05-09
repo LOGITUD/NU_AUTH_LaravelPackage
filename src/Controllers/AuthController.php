@@ -70,7 +70,10 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         try {
-            $user = JWTAuth::parseToken()->toUser();
+            $auth = JWTAuth::parseToken();
+            $authId = $auth->get('sub');
+            $model = env('NAUTH_USER_MODEL', 'App\Models\User');
+            $user = $model::where(env('NAUTH_KEY', 'auth_id'), $authId)->firstOrFail();
         }catch (\Exception $e) {
             return response()->json(['error' => 'token_invalid'], 500);
         }
