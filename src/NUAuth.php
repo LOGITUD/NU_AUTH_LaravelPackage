@@ -58,7 +58,13 @@ class NUAuth
             return $this->user;
         }
 
-        $authId            = $this->auth()->get('sub');
+        try {
+            $auth = $this->auth();
+        } catch (JWTException $e) {
+            return null;
+        }
+
+        $authId            = $auth->get('sub');
         $userModel         = env('NAUTH_USER_MODEL', 'App\Models\User');
         return $this->user = $userModel::where(env('NAUTH_KEY', 'auth_id'), $authId)->firstOrFail();
     }
