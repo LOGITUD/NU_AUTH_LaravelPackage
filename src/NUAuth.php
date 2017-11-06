@@ -158,6 +158,12 @@ class NUAuth
 
     public function login()
     {
+        $user = $this->user();
+
+        if (!$user) {
+            return;
+        }
+
         Auth::login($this->user());
     }
 
