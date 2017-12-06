@@ -47,7 +47,8 @@ class NUAuth
             return $this->auth;
         }
 
-        $this->auth = JWTAuth::parseToken('bearer', $this->guard . 'authorization', $this->guard . 'token', $this->guard . 'access_token')->getPayload();
+        $token = JWTAuth::getToken('bearer', $this->guard . 'authorization', $this->guard . 'token', $this->guard . 'access_token');
+        $this->auth = JWTAuth::getPayload();
 
         return $this->auth;
     }
