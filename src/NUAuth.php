@@ -48,6 +48,11 @@ class NUAuth
         }
 
         $token = JWTAuth::getToken('bearer', $this->guard . 'authorization', $this->guard . 'token', $this->guard . 'access_token');
+
+        if (!$token) {
+            return null;
+        }
+
         $this->auth = JWTAuth::getPayload();
 
         return $this->auth;
@@ -62,6 +67,10 @@ class NUAuth
         try {
             $auth = $this->auth();
         } catch (JWTException $e) {
+            return null;
+        }
+
+        if (!$auth) {
             return null;
         }
 
