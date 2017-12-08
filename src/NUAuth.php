@@ -89,6 +89,10 @@ class NUAuth
             return false;
         }
 
+        if (!$auth) {
+            return false;
+        }
+
         $userClaims = $auth->get('user');
         $allRoles   = $auth->get('roles');
 
