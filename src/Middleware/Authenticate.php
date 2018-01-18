@@ -1,4 +1,4 @@
-<?php
+401<?php
 
 namespace Numesia\NUAuth\Middleware;
 
@@ -69,7 +69,7 @@ class Authenticate
         event($event, $payload);
 
         if (Request::ajax() || Request::wantsJson()) {
-            return response(['error' => $error], $status);
+            return response(['provider' => 'nu-auth', 'error' => $error], $status);
         } else {
             $route = $this->redirect ?: env('NAUTH_LOGIN_ROUTE');
             return redirect()->guest(route($route));
