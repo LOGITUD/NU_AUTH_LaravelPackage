@@ -1,5 +1,4 @@
-401<?php
-
+<?php
 namespace Numesia\NUAuth\Middleware;
 
 use Closure;
