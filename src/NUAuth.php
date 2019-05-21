@@ -58,7 +58,7 @@ class NUAuth
         return $this->auth;
     }
 
-    public function user()
+    public function user($with = [])
     {
         if ($this->user) {
             return $this->user;
@@ -76,7 +76,7 @@ class NUAuth
 
         $authId            = $auth->get('sub');
         $userModel         = env('NAUTH_USER_MODEL', 'App\Models\User');
-        return $this->user = $userModel::where(env('NAUTH_KEY', 'auth_id'), $authId)->firstOrFail();
+        return $this->user = $userModel::where(env('NAUTH_KEY', 'auth_id'), $authId)->with($with)->firstOrFail();
     }
 
     public function userHas($conditions = '*:*:*', $guard = null)
