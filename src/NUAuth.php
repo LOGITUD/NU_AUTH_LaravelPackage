@@ -53,7 +53,11 @@ class NUAuth
             return null;
         }
 
-        $this->auth = JWTAuth::getPayload();
+        try {
+            $this->auth = JWTAuth::getPayload();
+        }catch(\Exception $e) {
+            return null;
+        }
 
         return $this->auth;
     }
