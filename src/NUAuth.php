@@ -78,7 +78,7 @@ class NUAuth
             return null;
         }
 
-        $authId            = $auth->get('sub');
+        $authId            = $auth->get('authId');
         $userModel         = env('NAUTH_USER_MODEL', 'App\Models\User');
         return $this->user = $userModel::where(env('NAUTH_KEY', 'auth_id'), $authId)->with($with)->firstOrFail();
     }
