@@ -71,7 +71,7 @@ class AuthController extends Controller
     {
         try {
             $auth = JWTAuth::parseToken();
-            $authId = $auth->getPayload()->get('sub');;
+            $authId = $auth->getPayload()->get('authId');
             $model = env('NAUTH_USER_MODEL', 'App\Models\User');
             $user = $model::where(env('NAUTH_KEY', 'auth_id'), $authId)->firstOrFail();
         }catch (\Exception $e) {
