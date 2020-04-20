@@ -55,7 +55,7 @@ class NUAuth
 
         try {
             $this->auth = JWTAuth::getPayload();
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             return null;
         }
 
@@ -79,6 +79,9 @@ class NUAuth
         }
 
         $authId            = $auth->get('authId');
+
+        $authId            = $authId ?: null;
+
         $userModel         = env('NAUTH_USER_MODEL', 'App\Models\User');
         return $this->user = $userModel::where(env('NAUTH_KEY', 'auth_id'), $authId)->with($with)->firstOrFail();
     }
@@ -117,7 +120,6 @@ class NUAuth
         return true;
     }
 
-
     /**
      * Check whether a Role is suffisant to pass
      *
@@ -129,17 +131,17 @@ class NUAuth
      */
     protected function hasSuffisantRole($authRoles, $requestRoles, $allRoles)
     {
-        $roles = array_keys($allRoles);
+        $roles         = array_keys($allRoles);
         $reversedRoles = array_reverse($roles);
 
         foreach ($reversedRoles as $role) {
-            $replace = implode(array_slice($reversedRoles, array_search($role, $reversedRoles)), '|');
-            $requestRoles = str_replace($role.'+', $replace, $requestRoles);
+            $replace      = implode(array_slice($reversedRoles, array_search($role, $reversedRoles)), '|');
+            $requestRoles = str_replace($role . '+', $replace, $requestRoles);
         }
 
         foreach ($roles as $role) {
-            $replace = implode(array_slice($roles, array_search($role, $roles)), '|');
-            $requestRoles = str_replace($role.'-', $replace, $requestRoles);
+            $replace      = implode(array_slice($roles, array_search($role, $roles)), '|');
+            $requestRoles = str_replace($role . '-', $replace, $requestRoles);
         }
 
         return $this->isBelongTo($authRoles, $requestRoles);
