@@ -42,6 +42,12 @@ class Authenticate
         } catch (JWTException $e) {
             return $this->respond('tymon.jwt.invalid', 'token_invalid', $e->getStatusCode(), [$e]);
         } catch (Exception $e) {
+            if (function_exists('isCloudAgent')) {
+                if (isCloudAgent($this->nuauth->getToken())) {
+                    return redirect("/__proxy/cloud/console");
+                }
+            }
+
             \Log::info("[Laravel-Auth-Package] : " . $e->getMessage());
             return $this->respond('nauth.user_unavailable', 'user_unavailable', '401');
         }

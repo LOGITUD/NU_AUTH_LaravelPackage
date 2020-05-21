@@ -20,6 +20,12 @@ class RedirectIfAuthenticated extends Authenticate
     public function handle($request, Closure $next, $conditions = '*:*:*')
     {
         try {
+            if (function_exists('isCloudAgent')) {
+                if (isCloudAgent($this->nuauth->getToken())) {
+                    return redirect("/__proxy/cloud/console");
+                }
+            }
+
             $ability = $this->nuauth->userHas($conditions, $this->guard);
             if ($ability !== true) {
                 return $next($request);
