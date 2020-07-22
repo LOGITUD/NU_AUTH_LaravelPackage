@@ -105,15 +105,15 @@ class NUAuth
 
         @list($departments, $roles, $scopes) = explode(':', $conditions);
 
-        if (!$this->isBelongTo($userClaims['departments'], $departments)) {
+        if (!$this->isBelongTo(array_get($userClaims, 'departments', []), $departments)) {
             return 'not_in_departments';
         }
 
-        if (!$this->hasSuffisantRole($userClaims['roles'], $roles, $allRoles)) {
+        if (!$this->hasSuffisantRole(array_get($userClaims, 'roles', []), $roles, $allRoles)) {
             return 'not_in_roles';
         }
 
-        if (!$this->isBelongTo($userClaims['scopes'], $scopes)) {
+        if (!$this->isBelongTo(array_get($userClaims, 'scopes', []), $scopes)) {
             return 'not_in_scopes';
         }
 
